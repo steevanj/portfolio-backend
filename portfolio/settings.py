@@ -22,6 +22,7 @@ DEBUG = env("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "16.171.177.97",
     "stevedev.live",
     "www.stevedev.live",
 ]
@@ -77,7 +78,7 @@ ROOT_URLCONF = "portfolio.urls"
 WSGI_APPLICATION = "portfolio.wsgi.application"
 
 # =====================================================
-# TEMPLATES (Required for Django Admin)
+# TEMPLATES
 # =====================================================
 
 TEMPLATES = [
@@ -180,6 +181,8 @@ CORS_ALLOWED_ORIGINS = [
 # =====================================================
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://16.171.177.97",
+    "http://16.171.177.97:8000",
     "https://stevedev.live",
     "https://www.stevedev.live",
 ]
@@ -191,8 +194,12 @@ CSRF_TRUSTED_ORIGINS = [
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+# IMPORTANT: Disabled because server currently runs HTTP
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+# Needed when using HTTPS behind Nginx later
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # =====================================================
 # LOGGING
