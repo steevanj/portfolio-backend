@@ -22,7 +22,7 @@ DEBUG = env("DJANGO_DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "16.171.177.97",
+    "13.60.83.201",
     "stevedev.live",
     "www.stevedev.live",
 ]
@@ -59,6 +59,9 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 
     "django.middleware.security.SecurityMiddleware",
+
+    # Static files middleware
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
 
@@ -149,6 +152,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
+# WhiteNoise static compression
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # =====================================================
 # MEDIA
 # =====================================================
@@ -181,8 +187,8 @@ CORS_ALLOWED_ORIGINS = [
 # =====================================================
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://16.171.177.97",
-    "http://16.171.177.97:8000",
+    "http://13.60.83.201",
+    "http://13.60.83.201:8000",
     "https://stevedev.live",
     "https://www.stevedev.live",
 ]
@@ -194,11 +200,9 @@ CSRF_TRUSTED_ORIGINS = [
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-# IMPORTANT: Disabled because server currently runs HTTP
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
-# Needed when using HTTPS behind Nginx later
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # =====================================================
@@ -213,7 +217,6 @@ if not os.path.exists(LOG_DIR):
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "handlers": {
         "file": {
             "level": "ERROR",
@@ -221,7 +224,6 @@ LOGGING = {
             "filename": LOG_DIR / "django_errors.log",
         },
     },
-
     "loggers": {
         "django": {
             "handlers": ["file"],
@@ -256,9 +258,7 @@ JAZZMIN_SETTINGS = {
     "navigation_expanded": True,
 
     "topmenu_links": [
-
         {"name": "Portfolio", "url": "https://stevedev.live", "new_window": True},
-
     ],
 }
 
